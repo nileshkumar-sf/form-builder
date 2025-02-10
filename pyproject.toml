@@ -1,0 +1,19 @@
+[tool.poetry]
+name = "form-builder"
+version = "0.1.0"
+description = ""
+authors = ["Nilesh Kumar <nilesh.kumar@sourcefuse.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.10"
+fastapi = "^0.115.8"
+requests = "^2.32.3"
+langchain-google-genai = "^2.0.9"
+uvicorn = "^0.34.0"
+python-dotenv = "^1.0.1"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
