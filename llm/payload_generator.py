@@ -118,17 +118,11 @@ class PayloadGenerator:
             # Get the response from the LLM
             response = self.chain.invoke({"user_description": prompt})
 
-            # Clean the response
-            response = self._format_json_response(response)
-
-            # Parse the response as JSON
-            form_definition = json.loads(response)
-
             # Validate the structure
-            self._validate_form_structure(form_definition)
+            self._validate_form_structure(response)
 
-            logging.info(f"Generated form definition: {form_definition}")
-            return form_definition
+            logging.info(f"Generated form definition: {response}")
+            return response
 
         except json.JSONDecodeError as e:
             logging.error(f"Failed to parse LLM response as JSON. Response: {response}")
@@ -193,23 +187,3 @@ class PayloadGenerator:
                         f"Section '{group.get('name', 'unnamed')}' has mismatched "
                         f"sectionKey in layout configuration"
                     )
-
-    def _format_json_response(self, response: str) -> str:
-        """
-        Helper method to clean and format the LLM response.
-
-        Args:
-            response (str): The raw response from the LLM
-
-        Returns:
-            str: The cleaned response
-        """
-        response = response.strip().strip('"').strip()
-        try:
-            start = response.find('{')
-            end = response.rfind('}') + 1
-            if start >= 0 and end > 0:
-                response = response[start:end]
-            return response
-        except Exception:
-            return response
